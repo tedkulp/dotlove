@@ -3,13 +3,21 @@ Given /^a directory named "([^"]*)" doesn't exist$/ do |directory|
 end
 
 Then /^"([^"]*)" is a valid git repository$/ do |directory|
+  pwd = Dir.pwd
+  dirs = @dirs
   cd(directory)
-  run_simple('git status')
-  assert_partial_output('On branch master', all_output)
+  Dir.chdir(current_dir)
+  %x(git rev-parse --git-dir).chomp.should == '.git'
+  Dir.chdir(pwd)
+  @dirs = dirs
 end
 
 Then /^"([^"]*)" is not a valid git repository$/ do |directory|
+  pwd = Dir.pwd
+  dirs = @dirs
   cd(directory)
-  run_simple('git status', false)
-  assert_partial_output('Not a git repository', all_output)
+  Dir.chdir(current_dir)
+  %x(git rev-parse --git-dir).chomp.should_not == '.git'
+  Dir.chdir(pwd)
+  @dirs = dirs
 end

@@ -21,21 +21,20 @@ program_desc 'Describe your application here'
 
 version Dotlove::VERSION
 
-desc 'Describe some switch here'
-switch [:s,:switch]
+# desc 'Describe some switch here'
+# switch [:s,:switch]
 
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
+# desc 'Describe some flag here'
+# default_value 'the default'
+# arg_name 'The name of the argument'
+# flag [:f,:flagname]
 
 command :init do |c|
   c.desc 'Initializes a new dotlove repository'
   c.action do |global_options,options,args|
     repo_dir_name = '.dotfiles'
     if File.exists?(repo_dir_name)
-      STDERR.puts "Repository directory already exists"
-      exit 1
+      raise "Repository directory already exists"
     else
       FileUtils.mkdir_p(repo_dir_name)
       Dir.chdir(repo_dir_name)
@@ -49,12 +48,12 @@ end
 desc 'Describe add here'
 arg_name 'Describe arguments to add here'
 command :add do |c|
-  c.desc 'Describe a switch to add'
-  c.switch :s
+  # c.desc 'Describe a switch to add'
+  # c.switch :s
 
-  c.desc 'Describe a flag to add'
-  c.default_value 'default'
-  c.flag :f
+  # c.desc 'Describe a flag to add'
+  # c.default_value 'default'
+  # c.flag :f
   c.action do |global_options,options,args|
 
     # Your command logic here
