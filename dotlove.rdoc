@@ -1,0 +1,5 @@
+= dotlove
+
+Generate this with
+    dotlove rdoc
+After you have described your command line interface

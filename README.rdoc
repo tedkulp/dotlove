@@ -1,0 +1,6 @@
+= dotlove
+
+Describe your project here
+
+:include:dotlove.rdoc
+
