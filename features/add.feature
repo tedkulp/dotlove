@@ -1,4 +1,3 @@
-@announce
 Feature: We can add a file to the repository
 
   Scenario: Add a new .file to the repository
