@@ -21,3 +21,16 @@ Then /^"([^"]*)" is not a valid git repository$/ do |directory|
   Dir.chdir(pwd)
   @dirs = dirs
 end
+
+Then /^a file named "([^"]*)" is symlinked to "([^"]*)"$/ do |arg1, arg2|
+  pwd = Dir.pwd
+  dirs = @dirs
+  Dir.chdir(current_dir)
+  File.readlink(arg1).should == arg2
+  Dir.chdir(pwd)
+  @dirs = dirs
+end
+
+Given /^a working repository$/ do
+  run_simple("bundle exec dotlove init")
+end
