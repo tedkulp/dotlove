@@ -1,3 +1,4 @@
+@announce
 Feature: We can add a file to the repository
 
   Scenario: Add a new .file to the repository
@@ -11,6 +12,7 @@ Feature: We can add a file to the repository
     And the stdout should contain ".somefile - OK"
     And a file named ".dotfiles/.somefile" should exist
     And a file named ".somefile" is symlinked to ".dotfiles/.somefile"
+    And a file named ".somefile" is staged to be committed in ".dotfiles"
     When I run `dotlove add .somefile`
     Then the stdout should contain "File(s) added to repository"
     And the stdout should contain ".somefile - Already Added"
