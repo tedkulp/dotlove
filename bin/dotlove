@@ -76,6 +76,10 @@ desc 'Describe commit here'
 arg_name 'Describe arguments to commit here'
 command :commit do |c|
   c.action do |global_options,options,args|
+    repo_dir_name = '.dotfiles'
+    `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git add -u`
+    `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git commit -m "Updated files"`
+    puts "File(s) committed"
   end
 end
 

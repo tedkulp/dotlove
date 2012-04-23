@@ -30,6 +30,24 @@ Then /^a file named "([^"]*)" is staged to be committed in "([^"]*)"$/ do |file,
   end
 end
 
+Then /^a file named "([^"]*)" is not staged to be committed in "([^"]*)"$/ do |file, directory|
+  in_subdirectory(directory) do
+    %x(git status --porcelain).chomp.should_not match /A\ +#{file}/mi
+  end
+end
+
+Then /^a file named "([^"]*)" is committed in "([^"]*)"$/ do |file, directory|
+  in_subdirectory(directory) do
+    %x(git ls-files #{file}).chomp.should_not match /A\ +#{file}/mi
+  end
+end
+
+Then /^git should have contain "([^"]*)" in the file "([^"]*)" in "([^"]*)"$/ do |text, file, directory|
+  in_subdirectory(directory) do
+    %x(git show HEAD:#{file}).chomp.should include text
+  end
+end
+
 # Run a block of code in current Aruba test
 # directory. Makes sure that # it's reset back
 # to the proper Aruba test # directory before
