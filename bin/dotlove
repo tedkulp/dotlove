@@ -59,8 +59,8 @@ command :add do |c|
       if File.symlink?(filename)
         puts "#{filename} - Already Added"
       else
-        FileUtils.mv filename, ".dotfiles/#{filename}"
-        FileUtils.ln_s ".dotfiles/#{filename}", filename
+        FileUtils.mv filename, "#{repo_dir_name}/#{filename}"
+        FileUtils.ln_s "#{repo_dir_name}/#{filename}", filename
         `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git add #{filename}`
         puts "#{filename} - OK"
       end
@@ -94,6 +94,16 @@ desc 'Describe remove here'
 arg_name 'Describe arguments to remove here'
 command :remove do |c|
   c.action do |global_options,options,args|
+    args.each do |filename|
+      repo_dir_name = '.dotfiles'
+      if File.symlink?(filename)
+        FileUtils.rm "#{filename}"
+        FileUtils.mv "#{repo_dir_name}/#{filename}", filename
+      else
+        puts "#{filename} - File is not in the repository"
+      end
+      puts "File(s) removed from repository"
+    end
   end
 end
 
