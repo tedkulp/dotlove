@@ -38,7 +38,13 @@ end
 
 Then /^a file named "([^"]*)" is committed in "([^"]*)"$/ do |file, directory|
   in_subdirectory(directory) do
-    %x(git ls-files #{file}).chomp.should_not match /A\ +#{file}/mi
+    %x(git ls-files #{file}).should match /#{file}/mi
+  end
+end
+
+Then /^a file named "([^"]*)" is not committed in "([^"]*)"$/ do |file, directory|
+  in_subdirectory(directory) do
+    %x(git ls-files #{file}).should_not match /#{file}/mi
   end
 end
 

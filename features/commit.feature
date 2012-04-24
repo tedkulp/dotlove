@@ -30,3 +30,16 @@ Feature: We can add a file to the repository
     And a file named ".somefile" is committed in ".dotfiles"
     And the stdout should contain "File(s) committed"
     And git should have contain "Other" in the file ".somefile" in ".dotfiles"
+
+  Scenario: Files that have been removed will be removed from the repository correctly
+    Given a file named ".somefile" with:
+    """
+    Some Content Here!!!
+    """
+    And a working repository
+    When I successfully run `dotlove add .somefile`
+    And I successfully run `dotlove commit`
+    Then a file named ".somefile" is committed in ".dotfiles"
+    When I successfully run `dotlove remove .somefile`
+    And I successfully run `dotlove commit`
+    Then a file named ".somefile" is not committed in ".dotfiles"
