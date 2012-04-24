@@ -12,6 +12,7 @@ Feature: We can remove a file from the repository
     And a file named ".somefile" is symlinked to ".dotfiles/.somefile"
     When I successfully run `dotlove remove .somefile`
     Then the stdout should contain "File(s) removed from repository"
+    And the stdout should contain ".somefile - Removed"
     And a file named ".dotfiles/.somefile" should not exist
 
   Scenario: Properly give a message if a file doesn't exist
