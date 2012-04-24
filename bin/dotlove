@@ -62,7 +62,7 @@ command :add do |c|
         FileUtils.mv filename, "#{repo_dir_name}/#{filename}"
         FileUtils.ln_s "#{repo_dir_name}/#{filename}", filename
         `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git add #{filename}`
-        puts "#{filename} - OK"
+        puts "#{filename} - Added"
       end
     end
     puts "File(s) added to repository"
@@ -99,6 +99,7 @@ command :remove do |c|
       if File.symlink?(filename)
         FileUtils.rm "#{filename}"
         FileUtils.mv "#{repo_dir_name}/#{filename}", filename
+        puts "#{filename} - Removed"
       else
         puts "#{filename} - File is not in the repository"
       end

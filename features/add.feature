@@ -8,7 +8,7 @@ Feature: We can add a file to the repository
     And a working repository
     When I successfully run `dotlove add .somefile`
     Then the stdout should contain "File(s) added to repository"
-    And the stdout should contain ".somefile - OK"
+    And the stdout should contain ".somefile - Added"
     And a file named ".dotfiles/.somefile" should exist
     And a file named ".somefile" is symlinked to ".dotfiles/.somefile"
     And a file named ".somefile" is staged to be committed in ".dotfiles"
@@ -30,8 +30,8 @@ Feature: We can add a file to the repository
     And a working repository
     When I successfully run `dotlove add .somefile .anotherfile`
     Then the stdout should contain "File(s) added to repository"
-    And the stdout should contain ".somefile - OK"
-    And the stdout should contain ".anotherfile - OK"
+    And the stdout should contain ".somefile - Added"
+    And the stdout should contain ".anotherfile - Added"
     And a file named ".dotfiles/.somefile" should exist
     And a file named ".somefile" is symlinked to ".dotfiles/.somefile"
     And a file named ".dotfiles/.anotherfile" should exist
