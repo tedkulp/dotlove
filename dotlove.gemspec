@@ -23,5 +23,8 @@ lib/dotlove_version.rb
   s.add_development_dependency('rdoc')
   s.add_development_dependency('aruba')
   s.add_development_dependency('cucumber')
+  s.add_development_dependency('guard')
+  s.add_development_dependency('guard-cucumber')
+  s.add_development_dependency('growl')
   s.add_runtime_dependency('gli')
 end
