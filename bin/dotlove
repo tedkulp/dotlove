@@ -83,6 +83,15 @@ command :commit do |c|
   end
 end
 
+desc 'Describe git here'
+arg_name 'Describe arguments to git here'
+command :git do |c|
+  c.action do |global_options,options,args|
+    repo_dir_name = '.dotfiles'
+    puts `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git #{ARGV[1..-1].join(' ')}`
+  end
+end
+
 desc 'Describe protect here'
 arg_name 'Describe arguments to protect here'
 command :protect do |c|
