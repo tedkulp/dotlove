@@ -13,6 +13,7 @@ end
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
+require 'dotlove'
 require 'dotlove_version'
 
 include GLI
@@ -20,6 +21,9 @@ include GLI
 program_desc 'Describe your application here'
 
 version Dotlove::VERSION
+
+runner = Dotlove::Runner.new
+runner.repo_dir_name = '.dotfiles'
 
 # desc 'Describe some switch here'
 # switch [:s,:switch]
@@ -32,14 +36,7 @@ version Dotlove::VERSION
 desc 'Initializes a new dotlove repository'
 command :init do |c|
   c.action do |global_options,options,args|
-    repo_dir_name = '.dotfiles'
-    if File.exists?(repo_dir_name)
-      raise "Repository directory already exists"
-    else
-      FileUtils.mkdir_p(repo_dir_name)
-      `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git init`
-      puts "Repository Initialized"
-    end
+    runner.cmd_init(global_options, options, args)
   end
 end
 
@@ -53,22 +50,7 @@ command :add do |c|
   # c.default_value 'default'
   # c.flag :f
   c.action do |global_options,options,args|
-    # Your command logic here
-    args.each do |filename|
-      repo_dir_name = '.dotfiles'
-      if File.symlink?(filename)
-        puts "#{filename} - Already Added"
-      else
-        FileUtils.mv filename, "#{repo_dir_name}/#{filename}"
-        FileUtils.ln_s "#{repo_dir_name}/#{filename}", filename
-        `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git add #{filename}`
-        puts "#{filename} - Added"
-      end
-    end
-    puts "File(s) added to repository"
-
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
+    runner.cmd_add(global_options, options, args)
   end
 end
 
@@ -76,10 +58,7 @@ desc 'Describe commit here'
 arg_name 'Describe arguments to commit here'
 command :commit do |c|
   c.action do |global_options,options,args|
-    repo_dir_name = '.dotfiles'
-    `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git add -u`
-    `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git commit -m "Updated files"`
-    puts "File(s) committed"
+    runner.cmd_commit(global_options, options, args)
   end
 end
 
@@ -87,8 +66,7 @@ desc 'Describe git here'
 arg_name 'Describe arguments to git here'
 command :git do |c|
   c.action do |global_options,options,args|
-    repo_dir_name = '.dotfiles'
-    puts `git --work-tree=#{repo_dir_name} --git-dir=#{repo_dir_name}/.git #{ARGV[1..-1].join(' ')}`
+    runner.cmd_git(global_options, options, args)
   end
 end
 
@@ -103,17 +81,7 @@ desc 'Describe remove here'
 arg_name 'Describe arguments to remove here'
 command :remove do |c|
   c.action do |global_options,options,args|
-    args.each do |filename|
-      repo_dir_name = '.dotfiles'
-      if File.symlink?(filename)
-        FileUtils.rm "#{filename}"
-        FileUtils.mv "#{repo_dir_name}/#{filename}", filename
-        puts "#{filename} - Removed"
-      else
-        puts "#{filename} - File is not in the repository"
-      end
-      puts "File(s) removed from repository"
-    end
+    runner.cmd_remove(global_options, options, args)
   end
 end
 
