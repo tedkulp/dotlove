@@ -19,3 +19,22 @@ Feature: We can remove a file from the repository
     Given a working repository
     When I successfully run `dotlove remove .somefile`
     Then the stdout should contain ".somefile - File is not in the repository"
+
+  Scenario: Properly remove multiple files from the repository
+    Given a file named ".somefile" with:
+    """
+    Some Content Here!!!
+    """
+    And a file named ".otherfile" with:
+    """
+    Some Content Here!!!
+    """
+    And a working repository
+    When I successfully run `dotlove add .somefile .otherfile`
+    And I successfully run `dotlove commit`
+    When I successfully run `dotlove remove .somefile .otherfile`
+    Then the stdout should contain "File(s) removed from repository"
+    And the stdout should contain ".somefile - Removed"
+    And the stdout should contain ".otherfile - Removed"
+    And a file named ".dotfiles/.somefile" should not exist
+    And a file named ".dotfiles/.otherfile" should not exist
