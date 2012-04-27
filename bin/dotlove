@@ -40,8 +40,8 @@ command :init do |c|
   end
 end
 
-desc 'Describe add here'
-arg_name 'Describe arguments to add here'
+desc 'Adds a new file(s) to the dotlove repository'
+arg_name '[file ...]'
 command :add do |c|
   # c.desc 'Describe a switch to add'
   # c.switch :s
@@ -54,31 +54,28 @@ command :add do |c|
   end
 end
 
-desc 'Describe commit here'
-arg_name 'Describe arguments to commit here'
+desc 'Commits changes made to the local copy of the repository'
 command :commit do |c|
   c.action do |global_options,options,args|
     runner.cmd_commit(global_options, options, args)
   end
 end
 
-desc 'Describe git here'
-arg_name 'Describe arguments to git here'
+desc 'Sends git commands to the local copy of the repository'
 command :git do |c|
   c.action do |global_options,options,args|
     runner.cmd_git(global_options, options, args)
   end
 end
 
-desc 'Describe protect here'
-arg_name 'Describe arguments to protect here'
-command :protect do |c|
-  c.action do |global_options,options,args|
-  end
-end
+# desc 'Describe protect here'
+# command :protect do |c|
+#   c.action do |global_options,options,args|
+#   end
+# end
 
-desc 'Describe remove here'
-arg_name 'Describe arguments to remove here'
+desc 'Removes a file(s) from the repository'
+arg_name '[file ...]'
 command :remove do |c|
   c.action do |global_options,options,args|
     runner.cmd_remove(global_options, options, args)
